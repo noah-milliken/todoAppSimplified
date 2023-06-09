@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    box-sizing: border-box;
+}
+
+.todo-element {
+    display: flex;
+    flex-direction: column;
+}
+
+.todo-item {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid tomato;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.item-delete {
+    color: red;
+    margin: 0 20px;
+}
