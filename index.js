@@ -10,15 +10,15 @@ function component() {
         const priority = document.getElementById('todo-priority').value
         const complete = document.getElementById('todo-completed').value
         TodoModel.addTodo(title, description, dueDate, priority, complete)
-
         document.querySelector('form').reset()
     })
-    const currentItemArray = TodoModel.todos
-    if (TodoModel.todos !== currentItemArray) {
-        return currentItemArray
-    }
+
+
+
+    const todoContainer = DomModel.todoContainer(TodoModel.todos)
+    todoContainer.id = 'todo-list'
+    element.appendChild(todoContainer)
     element.appendChild(DomModel.form())
-    element.appendChild(DomModel.todoContainer(currentItemArray))
     return element
 }
 //View
@@ -52,6 +52,11 @@ const DomModel = (() => {
 
     }
     const renderTodos = () => {
+        const container = document.getElementById('todo-list')
+        const updatedTodoContainer = todoContainer(TodoModel.todos)
+        container.innerHTML = ''
+        container.appendChild(updatedTodoContainer)
+
 
     }
 
@@ -172,11 +177,15 @@ const TodoModel = (() => {
     const addTodo = (title, description, dueDate, priority, completed = true) => {
         const newTodo = todoFactory(title, description, dueDate, priority, true)
         todos.push(newTodo)
+        DomModel.renderTodos()
+
 
 
     }
     const deleteTodo = (index) => {
+        console.log('spicy banana')
         todos.splice(index, 1)
+        DomModel.renderTodos()
 
     }
     const orderByPriority = () => {
