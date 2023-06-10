@@ -2,6 +2,7 @@
 //Control
 function component() {
     const element = document.createElement('div')
+    element.setAttribute('class', 'main-container')
     document.addEventListener('submit', (e) => {
         e.preventDefault()
         const title = document.getElementById('todo-title').value
@@ -10,18 +11,44 @@ function component() {
         const priority = document.getElementById('todo-priority').value
         const complete = document.getElementById('todo-completed').value
         TodoModel.addTodo(title, description, dueDate, priority, complete)
+        const modal = document.getElementById('form-modal')
+        const overlay = document.getElementById('overlay')
+        overlay.classList.toggle('closed')
+        modal.classList.toggle('closed')
+
+        openModalBtn.classList.toggle('closed')
         document.querySelector('form').reset()
+
     })
 
+    const openModalBtn = document.createElement('button')
+    openModalBtn.textContent = 'Add Item'
+    openModalBtn.addEventListener('click', () => {
+        const modal = document.getElementById('form-modal')
+        const overlay = document.getElementById('overlay')
+        overlay.classList.toggle('closed')
+        modal.classList.toggle('closed')
+        openModalBtn.classList.toggle('closed')
+    })
 
     const todoContainer = DomModel.todoContainer(TodoModel.todos)
     todoContainer.id = 'todo-list'
-    element.appendChild(todoContainer)
+    element.appendChild(DomModel.overlay())
+    element.appendChild(openModalBtn)
+    element.appendChild(DomModel.header())
+    element.appendChild(DomModel.sidebar())
     element.appendChild(DomModel.form())
+    element.appendChild(todoContainer)
     return element
 }
 //View
 const DomModel = (() => {
+    const header = () => {
+        const headerElement = document.createElement('div')
+        headerElement.setAttribute('class', 'header')
+        headerElement.textContent = 'Header'
+        return headerElement
+    }
     const sidebar = () => {
         const sideBarElement = document.createElement('div')
         sideBarElement.classList.add('side-bar')
@@ -70,10 +97,13 @@ const DomModel = (() => {
 
     const form = () => {
         const formElement = document.createElement('form')
-        formElement.classList.add('todo-form')
+        formElement.setAttribute('class', 'todo-form')
+        formElement.classList.add('class', 'form-modal')
+        formElement.classList.add('class', 'closed')
+        formElement.setAttribute('id', 'form-modal')
         formElement.innerHTML = `
             <form class="todo-form">
-                <fieldset>
+                
                     <label for="todo-title">To Do Item</label>
                     <input type="text" id="todo-title" name="todo-title" required minlength="4" maxlength="100" size="10" value="Sweep Floors">
                     <label for="description">Description</label>
@@ -89,16 +119,30 @@ const DomModel = (() => {
                     <label for="completed">Completed</label>
                     <input type="checkbox" name="completed" id="todo-completed" class="completed-checkbox">
                     <button type="submit" id="btn1">Add todo</button>
-                </fieldset>
+                
             </form>
             `
+
         return formElement
     }
+    const overlay = () => {
+        const overlayElement = document.createElement('div')
+        overlayElement.setAttribute('class', 'overlay')
+        overlayElement.setAttribute('id', 'overlay')
+        overlayElement.classList.add('closed')
+        return overlayElement
+    }
+
+
     return {
         form,
         sidebar,
+        header,
         todoContainer,
         renderTodos,
+        overlay,
+
+
     }
 
 })()

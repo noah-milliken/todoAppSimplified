@@ -7,7 +7,24 @@ body {
     box-sizing: border-box;
 }
 
+.main-container {
+    background-color: darkgray;
+    height: 100vh;
+    width: 100%;
+    display: grid;
+    gap: 5px;
+    grid-template-areas:
+        "header header header"
+        "sidebar todos todos"
+        "sidebar todos todos"
+    ;
+    grid-template-rows: 50px 1fr 1fr;
+    grid-template-columns: 150px 1fr;
+}
+
 .todo-element {
+    grid-area: todos;
+    border: 1px solid oldlace;
     display: flex;
     flex-direction: column;
 }
@@ -24,4 +41,46 @@ body {
 .item-delete {
     color: red;
     margin: 0 20px;
+}
+
+.header {
+    border: 1px solid oldlace;
+    grid-area: header;
+}
+
+.side-bar {
+    border: 1px solid oldlace;
+    grid-area: sidebar;
+}
+
+/* Modal */
+.form-modal {
+    background-color: burlywood;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 500px;
+    width: 500px;
+    z-index: 1010;
+
+}
+
+.closed {
+    display: none;
+}
+
+.overlay {
+
+    background-color: antiquewhite;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
 }
