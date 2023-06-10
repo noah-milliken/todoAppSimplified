@@ -14,7 +14,6 @@ function component() {
     })
 
 
-
     const todoContainer = DomModel.todoContainer(TodoModel.todos)
     todoContainer.id = 'todo-list'
     element.appendChild(todoContainer)
@@ -42,15 +41,24 @@ const DomModel = (() => {
                 <h4>${item.dueDate}</h4>
                 <h3>${item.priority}</h3>
                 <button class="complete">${item.completed ? 'Completed' : 'Incomplete'}</button>
-                <button  class="item-delete" data-index="${index}">X</button>
+                <div>
+                <button  class="item-delete" data-index="${index}" >X</button>
+                <button  class="item-edit" data-index="${index}">edit</button>
+                </div>
             `
+            const deleteButton = todoItem.querySelector('.item-delete')
+            deleteButton.addEventListener('click', () => {
+                TodoModel.deleteTodo(index)
+            })
             todoElement.appendChild(todoItem)
 
         });
-        console.log(TodoModel.todos)
+
         return todoElement
 
+
     }
+
     const renderTodos = () => {
         const container = document.getElementById('todo-list')
         const updatedTodoContainer = todoContainer(TodoModel.todos)
@@ -90,13 +98,10 @@ const DomModel = (() => {
         form,
         sidebar,
         todoContainer,
-        renderTodos
+        renderTodos,
     }
 
 })()
-
-
-
 
 // Model
 const todoFactory = (title, description, dueDate, priority, completed = true) => {
@@ -178,8 +183,6 @@ const TodoModel = (() => {
         const newTodo = todoFactory(title, description, dueDate, priority, true)
         todos.push(newTodo)
         DomModel.renderTodos()
-
-
 
     }
     const deleteTodo = (index) => {
